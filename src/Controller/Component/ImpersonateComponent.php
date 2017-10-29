@@ -45,7 +45,7 @@ class ImpersonateComponent extends Component
      * receive user Id
      * return true
      */
-    public function impersonate($id){
+    public function login($id){
         
         $this->controller->loadModel('Users');
         

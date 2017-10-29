@@ -1,5 +1,5 @@
 {
-    "name": "jomweb/CakeImpersonate",
+    "name": "jomweb/cake-impersonate",
     "description": "Impersonate plugin for CakePHP 3",
     "type": "cakephp-plugin",
     "license": "MIT",

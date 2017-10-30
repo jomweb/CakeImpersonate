@@ -1,6 +1,6 @@
 <?php
 
-namespace Cakeimpersonate\Controller;
+namespace CakeImpersonate\Controller;
 
 use App\Controller\AppController as BaseController;
 

@@ -52,7 +52,7 @@ class ImpersonateComponent extends Component
         $originalAuth = $this->request->getSession()->read('Auth');
         
         $users = $this->controller->Users->get($id);
-        $this->controller->Auth->setUser($users);
+        $this->controller->Auth->setUser($users->toArray());
         $this->request->getSession()->write('OriginalAuth',$originalAuth);
        
         return true;

@@ -49,11 +49,11 @@ class ImpersonateComponent extends Component
         
         $this->controller->loadModel('Users');
         
-        $originalAuth = $this->request->session()->read('Auth');
+        $originalAuth = $this->request->getSession()->read('Auth');
         
         $users = $this->controller->Users->get($id);
         $this->controller->Auth->setUser($users);
-        $this->request->session()->write('OriginalAuth',$originalAuth);
+        $this->request->getSession()->write('OriginalAuth',$originalAuth);
        
         return true;
     }
@@ -66,7 +66,7 @@ class ImpersonateComponent extends Component
      */
     public function isImpersonate() {
         
-        if($this->request->session()->read('OriginalAuth')){
+        if($this->request->getSession()->read('OriginalAuth')){
             return true;
         }
         
@@ -83,9 +83,9 @@ class ImpersonateComponent extends Component
         
         if($this->isImpersonate()) {
             $Auth = $this->request->session()->read('OriginalAuth');
-             $this->request->session()->write('Auth',$Auth);
+             $this->request->getSession()->write('Auth',$Auth);
             
-            $this->request->session()->delete('OriginalAuth');
+            $this->request->getSession()->delete('OriginalAuth');
         }
         
         return true;

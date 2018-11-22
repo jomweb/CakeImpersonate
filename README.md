@@ -2,7 +2,7 @@
 Cakephp3 impersonate plugin. A component that store current session and create new session for impersonating. User can revert back to original sessions without the needs to re-login.
 
 # Requirement
-1. Cakephp 3.4 and above.
+1. Cakephp 3.6 and above.
 2. Use of default Cakephp AuthComponent.
 
 # Installation

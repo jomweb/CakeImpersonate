@@ -8,7 +8,6 @@
 
 namespace App\Controller;
 
-
 use Cake\Controller\Controller;
 
 /**
@@ -28,5 +27,4 @@ class ImpersonateTestController extends Controller
         $this->loadComponent('CakeImpersonate.Impersonate');
         parent::initialize();
     }
-
 }

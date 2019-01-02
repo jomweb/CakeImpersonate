@@ -8,7 +8,6 @@
 
 namespace CakeImpersonate\Test\Fixture;
 
-
 use Cake\TestSuite\Fixture\TestFixture;
 
 class UsersFixture extends TestFixture

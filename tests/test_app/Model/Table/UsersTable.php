@@ -8,7 +8,6 @@
 
 namespace App\Model\Table;
 
-
 use Cake\ORM\Table as CoreTable;
 
 class UsersTable extends CoreTable

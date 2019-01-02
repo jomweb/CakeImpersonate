@@ -1,0 +1,42 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Windows template
+# Windows thumbnail cache files
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+
+# Dump file
+*.stackdump
+
+# Folder config file
+[Dd]esktop.ini
+
+# Windows shortcuts
+*.lnk
+### user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+
+### CakePHP template
+# CakePHP 3
+
+/vendor/*
+/config/app.php
+
+/tmp
+
+### macOS template
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+/composer.lock
+/phpunit.xml
+/phpunit.phar

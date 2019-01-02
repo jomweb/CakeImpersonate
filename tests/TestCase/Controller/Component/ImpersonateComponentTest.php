@@ -1,12 +1,13 @@
 <?php
-namespace CakeImpersonate\Test\TestCase\Controller\Component;
+namespace App\Test\TestCase\Controller\Component;
 
-use Cake\Controller\ComponentRegistry;
+use App\Controller\ImpersonateTestController;
+use Cake\Core\Configure;
+use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
-use Impersonate\Controller\Component\ImpersonateComponent;
 
 /**
- * CakeImpersonate\Controller\Component\ImpersonateComponent Test Case
+ * App\Controller\Component\ImpersonateComponent Test Case
  */
 class ImpersonateComponentTest extends TestCase
 {
@@ -14,9 +15,22 @@ class ImpersonateComponentTest extends TestCase
     /**
      * Test subject
      *
-     * @var \CakeImpersonate\Controller\Component\ImpersonateComponent
+     * @var \App\Controller\ImpersonateTestController
      */
     public $Impersonate;
+
+    public $fixtures = [
+        'plugin.CakeImpersonate.Users'
+    ];
+
+    public $Auth = [
+        'User' => [
+            'id' => 1,
+            'name' => 'test-user',
+            'password' => '12345678',
+            'active' => true
+        ]
+    ];
 
     /**
      * setUp method
@@ -26,8 +40,13 @@ class ImpersonateComponentTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $registry = new ComponentRegistry();
-        $this->Impersonate = new ImpersonateComponent($registry);
+        Configure::write('App.fullBaseUrl', 'http://localhost');
+
+        $request = new ServerRequest('/my_controller/foo');
+        $request = $request->withParam('controller', 'MyController')
+            ->withParam('action', 'foo');
+        $this->Impersonate = new ImpersonateTestController($request);
+        $this->Impersonate->startupProcess();
     }
 
     /**
@@ -38,17 +57,42 @@ class ImpersonateComponentTest extends TestCase
     public function tearDown()
     {
         unset($this->Impersonate);
+        unset($this->Auth);
 
         parent::tearDown();
     }
 
     /**
-     * Test initial setup
-     *
      * @return void
      */
-    public function testInitialization()
+    public function testIsImpersonate()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->assertFalse($this->Impersonate->Impersonate->isImpersonate());
+
+        $this->Impersonate->getRequest()->getSession()->write('OriginalAuth', $this->Auth);
+        $this->assertTrue($this->Impersonate->Impersonate->isImpersonate());
+    }
+
+    /**
+     * @return void
+     */
+    public function testLogout()
+    {
+        $this->assertTrue($this->Impersonate->Impersonate->logout());
+
+        $this->Impersonate->getRequest()->getSession()->write('OriginalAuth', $this->Auth);
+        $this->assertTrue($this->Impersonate->Impersonate->logout());
+        $this->assertEquals($this->Auth, $this->Impersonate->getRequest()->getSession()->read('Auth'));
+    }
+
+    /**
+     * @return void
+     */
+    public function testLogin()
+    {
+        $this->Impersonate->getRequest()->getSession()->write('Auth', $this->Auth);
+        $this->assertTrue($this->Impersonate->Impersonate->login(2));
+
+        $this->assertEquals($this->Auth, $this->Impersonate->getRequest()->getSession()->read('OriginalAuth'));
     }
 }

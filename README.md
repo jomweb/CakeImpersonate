@@ -6,11 +6,11 @@
 [![Total Downloads](https://poser.pugx.org/jomweb/cake-impersonate/d/total.svg)](https://packagist.org/packages/jomweb/cake-impersonate)
 
 # CakeImpersonate
-Cakephp3 impersonate plugin. A component that store current session and create new session for impersonating. User can revert back to original sessions without the needs to re-login.
+CakePHP Impersonate Plugin. A component that stores the current authentication session and creates new session for impersonating Users. User can revert back to original authentication sessions without the need to re-login.
 
 # Requirement
-1. Cakephp 3.6 and above.
-2. Use of default Cakephp AuthComponent.
+1. CakePHP 3.6 and above.
+2. Use of default CakePHP AuthComponent.
 
 # Installation
 `

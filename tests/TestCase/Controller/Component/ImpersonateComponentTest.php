@@ -3,8 +3,6 @@ namespace App\Test\TestCase\Controller\Component;
 
 use App\Controller\ImpersonateTestController;
 use Cake\Core\Configure;
-use Cake\Datasource\Exception\RecordNotFoundException;
-use Cake\Event\Event;
 use Cake\Http\ServerRequest;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
@@ -72,10 +70,10 @@ class ImpersonateComponentTest extends TestCase
      */
     public function testIsImpersonate()
     {
-        $this->assertFalse($this->Impersonate->Impersonate->isImpersonate());
+        $this->assertFalse($this->Impersonate->Impersonate->isImpersonated());
 
         $this->Impersonate->getRequest()->getSession()->write('OriginalAuth', $this->Auth);
-        $this->assertTrue($this->Impersonate->Impersonate->isImpersonate());
+        $this->assertTrue($this->Impersonate->Impersonate->isImpersonated());
     }
 
     /**
@@ -95,7 +93,7 @@ class ImpersonateComponentTest extends TestCase
     {
         $this->Impersonate->Impersonate->setConfig('stayLoggedIn', false);
         $this->Impersonate->getRequest()->getSession()->write('OriginalAuth', $this->Auth);
-        $this->assertSame('/', $this->Impersonate->Impersonate->logout(new Event('Auth.logout')));
+        $this->assertSame('/', $this->Impersonate->Impersonate->logout());
     }
 
     /**

@@ -8,6 +8,9 @@
 # Impersonate Component
 A component that stores the current authentication session and creates new session for impersonating Users. User can revert back to original authentication sessions without the need to re-login.
 
+### Warning
+Always double check that you cannot "spoof" other users in the controller actions. To prevent hijacking of users accounts that the current authenticated User shouldn't/wouldn't have normal access to. This Plugin does circumvent default authentication mechanisms.
+
 # Requirement
 1. CakePHP 3.7 and above.
 
@@ -31,12 +34,12 @@ $this->loadComponent('CakeImpersonate.Impersonate');
 # Usage
 #### Impersonate user
 ```php
-$this->Impersonate->login($targeted_user_id);
+$this->Impersonate->login($user_id);
 ```
 
-#### Check current user is impersonating
+#### Check current user is impersonated
 ```php
-$this->Impersonate->isImpersonate();
+$this->Impersonate->isImpersonated();
 ```
 
 #### Logout from impersonating

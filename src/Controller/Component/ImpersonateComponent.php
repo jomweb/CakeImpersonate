@@ -26,7 +26,8 @@ class ImpersonateComponent extends Component
     protected $_defaultConfig = [
         'userModel' => 'Users',
         'finder' => 'all',
-        'stayLoggedIn' => true
+        'stayLoggedIn' => true,
+        'sessionKey' => 'OriginalAuth',
     ];
 
     /**
@@ -42,11 +43,11 @@ class ImpersonateComponent extends Component
         $this->getController()->loadModel($userModel);
 
         $finder = $this->getConfig('finder', 'all');
-        /** @var \Cake\ORM\Table $userTable */
-        $userTable = $this->getController()->{$userModel};
-        $userArray = $userTable->find($finder)->where([$userTable->getAlias() . '.id' => $id])->firstOrFail()->toArray();
+        /** @var \Cake\ORM\Table $usersTable */
+        $usersTable = $this->getController()->{$userModel};
+        $userArray = $usersTable->find($finder)->where([$usersTable->getAlias() . '.id' => $id])->firstOrFail()->toArray();
         $this->getController()->Auth->setUser($userArray);
-        $this->getController()->getRequest()->getSession()->write('OriginalAuth', $this->getController()->getRequest()->getSession()->read('Auth'));
+        $this->getController()->getRequest()->getSession()->write($this->getConfig('sessionKey', 'OriginalAuth'), $this->getController()->getRequest()->getSession()->read('Auth'));
 
         return true;
     }
@@ -60,10 +61,10 @@ class ImpersonateComponent extends Component
      */
     public function logout()
     {
-        if ($this->isImpersonate()) {
-            $Auth = $this->getController()->getRequest()->getSession()->read('OriginalAuth');
+        if ($this->isImpersonated()) {
+            $Auth = $this->getController()->getRequest()->getSession()->read($this->getConfig('sessionKey', 'OriginalAuth'));
             $this->getController()->getRequest()->getSession()->write('Auth', $Auth);
-            $this->getController()->getRequest()->getSession()->delete('OriginalAuth');
+            $this->getController()->getRequest()->getSession()->delete($this->getConfig('sessionKey', 'OriginalAuth'));
             $stayLoggedIn = $this->getConfig('stayLoggedIn', true);
             if (!$stayLoggedIn) {
                 return $this->getController()->Auth->logout();
@@ -77,9 +78,24 @@ class ImpersonateComponent extends Component
      * Function isImpersonate
      *
      * To check if current account is being impersonated
+     * @deprecated 2.1.4 Will be removed in 3.0.0 use `isImpersonated()` instead
      * @return bool
      */
     public function isImpersonate()
+    {
+        deprecationWarning('isImpersonate() is deprecated use isImpersonated() instead');
+
+        return $this->isImpersonated();
+    }
+
+    /**
+     * Function isImpersonated
+     *
+     * To check if current Auth is being impersonated
+     *
+     * @return bool
+     */
+    public function isImpersonated()
     {
         return $this->getController()->getRequest()->getSession()->check('OriginalAuth');
     }

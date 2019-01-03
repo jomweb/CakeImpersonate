@@ -10,7 +10,7 @@
 namespace CakeImpersonate\Controller\Component;
 
 use Cake\Controller\Component;
-use Cake\ORM\Entity;
+use Cake\Event\Event;
 
 /**
  * Impersonate component
@@ -23,24 +23,29 @@ class ImpersonateComponent extends Component
      *
      * @var array
      */
-    protected $_defaultConfig = [];
+    protected $_defaultConfig = [
+        'userModel' => 'Users',
+        'finder' => 'all',
+    ];
 
     /**
      * Function impersonate
      *
-     * @param mixed $id
+     * @param mixed $id ID of user to impersonate
      * @return bool
+     * @throws \Exception If userModal is not loaded in the Controller
      */
     public function login($id)
     {
-        $this->getController()->loadModel('Users');
+        $userModel = $this->getConfig('userModal', 'Users');
+        $this->getController()->loadModel($userModel);
 
-        $originalAuth = $this->getController()->getRequest()->getSession()->read('Auth');
-
-        /** @var Entity $users */
-        $users = $this->getController()->Users->get($id);
-        $this->getController()->Auth->setUser($users->toArray());
-        $this->getController()->getRequest()->getSession()->write('OriginalAuth', $originalAuth);
+        $finder = $this->getConfig('finder');
+        /** @var \Cake\ORM\Table $userTable */
+        $userTable = $this->getController()->{$userModel};
+        $userArray = $userTable->find($finder)->where([$userTable->getAlias() . '.id' => $id])->firstOrFail()->toArray();
+        $this->getController()->Auth->setUser($userArray);
+        $this->getController()->getRequest()->getSession()->write('OriginalAuth', $this->getController()->getRequest()->getSession()->read('Auth'));
 
         return true;
     }
@@ -54,7 +59,6 @@ class ImpersonateComponent extends Component
     public function isImpersonate()
     {
         if ($this->getController()->getRequest()->getSession()->read('OriginalAuth')) {
-
             return true;
         }
 
@@ -77,5 +81,36 @@ class ImpersonateComponent extends Component
         }
 
         return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function implementedEvents()
+    {
+        $eventMap = [
+            'Controller.initialize' => 'updateConfig',
+            'Controller.startup' => 'updateConfig',
+        ];
+        $events = [];
+        foreach ($eventMap as $event => $method) {
+            if (method_exists($this, $method)) {
+                $events[$event] = $method;
+            }
+        }
+
+        return $events;
+    }
+
+    /**
+     * Updates the userModel and finder based on the AuthComponent.
+     *
+     * @param Event $event Event that started the update.
+     * @return void
+     */
+    public function updateConfig(Event $event)
+    {
+        $this->setConfig('userModel', $this->getController()->Auth->getConfig('authorize.all.userModel', $this->getConfig('userModel')));
+        $this->setConfig('finder', $this->getController()->Auth->getConfig('authorize.all.finder', $this->getConfig('finder')));
     }
 }

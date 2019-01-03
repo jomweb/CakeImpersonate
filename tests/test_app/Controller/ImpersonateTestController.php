@@ -14,6 +14,7 @@ use Cake\Controller\Controller;
  * Use Controller instead of AppController to avoid conflicts
  *
  * @property \CakeImpersonate\Controller\Component\ImpersonateComponent $Impersonate
+ * @property \App\Model\Table\UsersTable $Users
  */
 class ImpersonateTestController extends Controller
 {
@@ -24,6 +25,7 @@ class ImpersonateTestController extends Controller
     public function initialize()
     {
         $this->loadComponent('Auth');
+        $this->loadModel('Users');
         $this->loadComponent('CakeImpersonate.Impersonate');
         parent::initialize();
     }

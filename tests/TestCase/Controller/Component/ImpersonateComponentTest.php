@@ -91,6 +91,19 @@ class ImpersonateComponentTest extends TestCase
     public function testLogin()
     {
         $this->Impersonate->getRequest()->getSession()->write('Auth', $this->Auth);
+        $this->assertTrue($this->Impersonate->Impersonate->login(1));
+
+        $this->assertEquals($this->Auth, $this->Impersonate->getRequest()->getSession()->read('OriginalAuth'));
+    }
+
+    /**
+     * @return void
+     * @expectedException \Exception
+     */
+    public function testLoginException()
+    {
+        $this->Impersonate->Impersonate->setConfig('userModal', 'UserNotFound');
+        $this->Impersonate->getRequest()->getSession()->write('Auth', $this->Auth);
         $this->assertTrue($this->Impersonate->Impersonate->login(2));
 
         $this->assertEquals($this->Auth, $this->Impersonate->getRequest()->getSession()->read('OriginalAuth'));

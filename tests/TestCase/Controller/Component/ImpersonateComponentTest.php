@@ -3,7 +3,9 @@ namespace App\Test\TestCase\Controller\Component;
 
 use App\Controller\ImpersonateTestController;
 use Cake\Core\Configure;
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Http\ServerRequest;
+use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
 /**
@@ -11,6 +13,7 @@ use Cake\TestSuite\TestCase;
  */
 class ImpersonateComponentTest extends TestCase
 {
+    use IntegrationTestTrait;
 
     /**
      * Test subject
@@ -40,6 +43,7 @@ class ImpersonateComponentTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+        $this->disableErrorHandlerMiddleware();
         Configure::write('App.fullBaseUrl', 'http://localhost');
 
         $request = new ServerRequest('/my_controller/foo');
@@ -98,14 +102,22 @@ class ImpersonateComponentTest extends TestCase
 
     /**
      * @return void
-     * @expectedException \Exception
+     * @expectedException \Cake\Database\Exception
      */
-    public function testLoginException()
+    public function testUnloadableUserModal()
     {
         $this->Impersonate->Impersonate->setConfig('userModal', 'UserNotFound');
-        $this->Impersonate->getRequest()->getSession()->write('Auth', $this->Auth);
-        $this->assertTrue($this->Impersonate->Impersonate->login(2));
+        $this->Impersonate->Impersonate->login(1);
+    }
 
-        $this->assertEquals($this->Auth, $this->Impersonate->getRequest()->getSession()->read('OriginalAuth'));
+    /**
+     * @return void
+     * @expectedException \BadMethodCallException
+     * @expectedExceptionMessage Unknown finder method "Peanuts"
+     */
+    public function testUnloadableFinder()
+    {
+        $this->Impersonate->Impersonate->setConfig('finder', 'Peanuts');
+        $this->Impersonate->Impersonate->login(1);
     }
 }

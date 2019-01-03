@@ -51,21 +51,6 @@ class ImpersonateComponent extends Component
     }
 
     /**
-     * Function isImpersonate
-     *
-     * To check if current account is being impersonated
-     * @return bool
-     */
-    public function isImpersonate()
-    {
-        if ($this->getController()->getRequest()->getSession()->read('OriginalAuth')) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Function logout
      *
      * To log out of impersonated account
@@ -81,6 +66,17 @@ class ImpersonateComponent extends Component
         }
 
         return true;
+    }
+
+    /**
+     * Function isImpersonate
+     *
+     * To check if current account is being impersonated
+     * @return bool
+     */
+    public function isImpersonate()
+    {
+        return $this->getController()->getRequest()->getSession()->check('OriginalAuth');
     }
 
     /**

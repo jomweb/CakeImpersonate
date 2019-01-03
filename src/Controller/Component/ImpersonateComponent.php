@@ -26,6 +26,7 @@ class ImpersonateComponent extends Component
     protected $_defaultConfig = [
         'userModel' => 'Users',
         'finder' => 'all',
+        'stayLoggedIn' => true
     ];
 
     /**
@@ -40,7 +41,7 @@ class ImpersonateComponent extends Component
         $userModel = $this->getConfig('userModal', 'Users');
         $this->getController()->loadModel($userModel);
 
-        $finder = $this->getConfig('finder');
+        $finder = $this->getConfig('finder', 'all');
         /** @var \Cake\ORM\Table $userTable */
         $userTable = $this->getController()->{$userModel};
         $userArray = $userTable->find($finder)->where([$userTable->getAlias() . '.id' => $id])->firstOrFail()->toArray();
@@ -55,7 +56,7 @@ class ImpersonateComponent extends Component
      *
      * To log out of impersonated account
      *
-     * @return bool
+     * @return bool|string Normalized config `logoutRedirect`
      */
     public function logout()
     {
@@ -63,6 +64,10 @@ class ImpersonateComponent extends Component
             $Auth = $this->getController()->getRequest()->getSession()->read('OriginalAuth');
             $this->getController()->getRequest()->getSession()->write('Auth', $Auth);
             $this->getController()->getRequest()->getSession()->delete('OriginalAuth');
+            $stayLoggedIn = $this->getConfig('stayLoggedIn', true);
+            if (!$stayLoggedIn) {
+                return $this->getController()->Auth->logout();
+            }
         }
 
         return true;

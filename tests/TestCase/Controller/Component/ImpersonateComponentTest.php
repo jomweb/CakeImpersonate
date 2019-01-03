@@ -68,12 +68,20 @@ class ImpersonateComponentTest extends TestCase
     /**
      * @return void
      */
-    public function testIsImpersonate()
+    public function testIsImpersonated()
     {
         $this->assertFalse($this->Impersonate->Impersonate->isImpersonated());
 
         $this->Impersonate->getRequest()->getSession()->write('OriginalAuth', $this->Auth);
         $this->assertTrue($this->Impersonate->Impersonate->isImpersonated());
+    }
+
+    /**
+     * @return void
+     */
+    public function testIsImpersonate()
+    {
+        $this->assertFalse($this->Impersonate->Impersonate->isImpersonate());
     }
 
     /**

@@ -111,7 +111,6 @@ class ImpersonateComponent extends Component
     public function implementedEvents()
     {
         $eventMap = [
-            'Controller.initialize' => 'updateConfig',
             'Controller.startup' => 'updateConfig',
         ];
         $events = [];

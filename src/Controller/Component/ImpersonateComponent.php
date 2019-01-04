@@ -78,7 +78,7 @@ class ImpersonateComponent extends Component
      * Function isImpersonate
      *
      * To check if current account is being impersonated
-     * @deprecated 2.1.4 Will be removed in 3.0.0 use `isImpersonated()` instead
+     * @deprecated 2.1.5 Will be removed in 3.0.0 use `isImpersonated()` instead
      * @return bool
      */
     public function isImpersonate()

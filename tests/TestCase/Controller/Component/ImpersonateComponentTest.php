@@ -70,19 +70,22 @@ class ImpersonateComponentTest extends TestCase
      */
     public function testIsImpersonated()
     {
-        Configure::write('Impersonate.sessionKey', 'OriginalAuth');
         $this->assertFalse($this->Impersonate->Impersonate->isImpersonated());
 
         $this->Impersonate->getRequest()->getSession()->write('OriginalAuth', $this->Auth);
-        $this->assertTrue($this->Impersonate->Impersonate->isImpersonated());
+        $this->assertFalse($this->Impersonate->Impersonate->isImpersonated());
     }
 
     /**
      * @return void
      */
-    public function testIsImpersonate()
+    public function testIsImpersonatedConfig()
     {
-        $this->assertFalse($this->Impersonate->Impersonate->isImpersonate());
+        Configure::write('Impersonate.sessionKey', 'OriginalAuth');
+        $this->assertFalse($this->Impersonate->Impersonate->isImpersonated());
+
+        $this->Impersonate->getRequest()->getSession()->write('OriginalAuth', $this->Auth);
+        $this->assertTrue($this->Impersonate->Impersonate->isImpersonated());
     }
 
     /**

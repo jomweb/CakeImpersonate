@@ -85,20 +85,6 @@ class ImpersonateComponent extends Component
     }
 
     /**
-     * Function isImpersonate
-     *
-     * To check if current account is being impersonated
-     * @deprecated 2.1.4 Will be removed in 3.0.0 use `isImpersonated()` instead
-     * @return bool
-     */
-    public function isImpersonate()
-    {
-        deprecationWarning('isImpersonate() is deprecated use isImpersonated() instead');
-
-        return $this->isImpersonated();
-    }
-
-    /**
      * Function isImpersonated
      *
      * To check if current Auth is being impersonated

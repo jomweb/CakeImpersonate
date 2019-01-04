@@ -45,7 +45,7 @@ to the `return [];` or use `Configure::write('Impersonate.sessionKey', 'Original
 #### Impersonate user
 This requires the request to be a `POST`, `PUT`, `DELETE` so it can be protected by `SecurityComponent` and `CsrfComponent`
 ```php
-$this->Impersonate->login($user_id);
+$this->Impersonate->login($userIdToImpersonate);
 ```
 
 #### Check current user is impersonated

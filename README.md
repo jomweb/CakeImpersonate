@@ -16,7 +16,7 @@ Always double check that an attacker cannot "spoof" other users in the controlle
 ## Requirement
 1. CakePHP 3.7 and above.
 
-## Installation
+## Installation/Upgrading
 `
 composer require jomweb/cake-impersonate:"^3.0"
 `
@@ -28,6 +28,7 @@ $this->addPlugin('CakeImpersonate');
 ```
 to your bootstrap() method or call `bin/cake plugin load CakeImpersonate`
 
+### Component Load
 Load the component from controller
 ```php
 $this->loadComponent('CakeImpersonate.Impersonate'); 

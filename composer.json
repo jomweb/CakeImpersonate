@@ -8,8 +8,8 @@
         "cakephp/cakephp": "^3.7"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^3.4",
-        "cakephp/cakephp-codesniffer": "^3.0"
+        "cakephp/cakephp-codesniffer": "^3.0",
+        "squizlabs/php_codesniffer": "^3.4"
     },
     "autoload": {
         "psr-4": {
@@ -35,6 +35,8 @@
         "cs-fix": "phpcbf -v --standard=vendor/cakephp/cakephp-codesniffer/CakePHP --extensions=php --ignore=/tests/test_files/ src/ tests/ config/"
     },
     "config": {
-        "process-timeout": 600
-    }
+        "process-timeout": 600,
+        "sort-packages": true
+    },
+    "prefer-stable": true
 }

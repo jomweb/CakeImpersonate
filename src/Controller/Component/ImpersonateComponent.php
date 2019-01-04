@@ -53,8 +53,9 @@ class ImpersonateComponent extends Component
         /** @var \Cake\ORM\Table $usersTable */
         $usersTable = $this->getController()->{$userModel};
         $userArray = $usersTable->find($finder)->where([$usersTable->getAlias() . '.id' => $id])->firstOrFail()->toArray();
+        $originalAuth = $this->getController()->getRequest()->getSession()->read('Auth');
         $this->getController()->Auth->setUser($userArray);
-        $this->getController()->getRequest()->getSession()->write($this->getSessionKey(), $this->getController()->getRequest()->getSession()->read('Auth'));
+        $this->getController()->getRequest()->getSession()->write($this->getSessionKey(), $originalAuth);
 
         return true;
     }

@@ -3,6 +3,7 @@
 [![Coverage Status](https://codecov.io/gh/jomweb/CakeImpersonate/branch/master/graph/badge.svg)](https://codecov.io/gh/jomweb/CakeImpersonate)
 [![Latest Stable Version](https://poser.pugx.org/jomweb/cake-impersonate/v/stable.svg)](https://packagist.org/packages/jomweb/cake-impersonate)
 [![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.6-8892BF.svg)](https://php.net/)
+[![License](https://poser.pugx.org/jomweb/cake-impersonate/license.svg)](https://packagist.org/packages/jomweb/cake-impersonate)
 [![Total Downloads](https://poser.pugx.org/jomweb/cake-impersonate/d/total.svg)](https://packagist.org/packages/jomweb/cake-impersonate)
 
 # Impersonate Component

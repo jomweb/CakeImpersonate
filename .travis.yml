@@ -35,8 +35,9 @@ matrix:
 before_script:
   - if [[ $PREFER_LOWEST != 1 ]]; then composer install --prefer-source --no-interaction ; fi
   - if [[ $PREFER_LOWEST == 1 ]]; then composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable ; fi
+  - if [[ $PREFER_LOWEST == 1 ]]; then composer require --dev dereuromark/composer-prefer-lowest; fi
 
-  - if [[ $CHECKS != 1 ]]; then composer require phpunit/phpunit:"^5.7.14|^6.0"; fi
+  - if [[ $CHECKS != 1 ]]; then composer require phpunit/phpunit:"^5.7.27|^6.0"; fi
 
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi"
@@ -46,6 +47,8 @@ before_script:
   - cp phpunit.xml.dist phpunit.xml
 
 script:
+  - if [[ $PREFER_LOWEST == 1 ]]; then vendor/bin/validate-prefer-lowest; fi
+
   - if [[ $DEFAULT == 1 ]]; then vendor/bin/phpunit; fi
 
   - if [[ $CHECKS == 1 ]]; then composer phpstan-setup && composer phpstan ; fi

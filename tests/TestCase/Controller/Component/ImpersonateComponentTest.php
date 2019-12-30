@@ -143,11 +143,11 @@ class ImpersonateComponentTest extends TestCase
      */
     public function testLogin()
     {
-        $this->expectException('\Cake\Controller\Exception\AuthSecurityException');
-        $this->expectExceptionMessage('You must configure the Impersonate.sessionKey in config/app.php when impersonating a user.');
-
         $this->Impersonate->setRequest($this->Impersonate->getRequest()->withMethod('POST'));
         $this->Impersonate->getRequest()->getSession()->write('Auth', $this->Auth);
+
+        $this->expectException('\Cake\Controller\Exception\AuthSecurityException');
+        $this->expectExceptionMessage('You must configure the Impersonate.sessionKey in config/app.php when impersonating a user.');
         $this->assertTrue($this->Impersonate->Impersonate->login(1));
 
         $this->assertNull($this->Impersonate->getRequest()->getSession()->read('OriginalAuth'));
@@ -160,12 +160,12 @@ class ImpersonateComponentTest extends TestCase
      */
     public function testLoginGet()
     {
-        $this->expectException('\Cake\Controller\Exception\AuthSecurityException');
-        $this->expectExceptionMessage('You can only call the login function with a request that is POST, PUT, or DELETE');
-
         Configure::write('Impersonate.sessionKey', 'OriginalAuth');
         $this->Impersonate->setRequest($this->Impersonate->getRequest()->withMethod('GET'));
         $this->Impersonate->getRequest()->getSession()->write('Auth', $this->Auth);
+
+        $this->expectException('\Cake\Controller\Exception\AuthSecurityException');
+        $this->expectExceptionMessage('You can only call the login function with a request that is POST, PUT, or DELETE');
         $this->assertTrue($this->Impersonate->Impersonate->login(1));
 
         $this->assertNull($this->Impersonate->getRequest()->getSession()->read('OriginalAuth'));
@@ -193,11 +193,11 @@ class ImpersonateComponentTest extends TestCase
      */
     public function testUnloadableUserModal()
     {
-        $this->expectException('\Cake\Database\Exception');
-
         Configure::write('Impersonate.sessionKey', 'OriginalAuth');
         $this->Impersonate->setRequest($this->Impersonate->getRequest()->withMethod('POST'));
         $this->Impersonate->Impersonate->setConfig('userModal', 'UserNotFound');
+
+        $this->expectException('\Cake\Database\Exception');
         $this->Impersonate->Impersonate->login(1);
     }
 
@@ -208,12 +208,12 @@ class ImpersonateComponentTest extends TestCase
      */
     public function testUnloadableFinder()
     {
-        $this->expectException('\BadMethodCallException');
-        $this->expectExceptionMessage('Unknown finder method "Peanuts"');
-
         Configure::write('Impersonate.sessionKey', 'OriginalAuth');
         $this->Impersonate->setRequest($this->Impersonate->getRequest()->withMethod('DELETE'));
         $this->Impersonate->Impersonate->setConfig('finder', 'Peanuts');
+
+        $this->expectException('\BadMethodCallException');
+        $this->expectExceptionMessage('Unknown finder method "Peanuts"');
         $this->Impersonate->Impersonate->login(1);
     }
 }

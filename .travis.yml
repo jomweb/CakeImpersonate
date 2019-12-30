@@ -2,6 +2,10 @@ language: php
 
 sudo: false
 
+services:
+  - mysql
+  - postgresql
+
 php:
   - 5.6
   - 7.0

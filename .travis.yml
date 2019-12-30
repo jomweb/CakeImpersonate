@@ -3,9 +3,9 @@ language: php
 sudo: false
 
 php:
-  - 5.6
-  - 7.0
+  - 7.2
   - 7.3
+  - 7.4
 
 env:
   matrix:
@@ -17,19 +17,19 @@ matrix:
   fast_finish: true
 
   include:
-    - php: 7.1
+    - php: 7.2
       env: DB=pgsql db_dsn='postgres://postgres@127.0.0.1/cakephp_test'
 
     - php: 7.2
       env: DB=sqlite db_dsn='sqlite:///:memory:'
 
-    - php: 5.6
+    - php: 5.2
       env: PREFER_LOWEST=1
 
-    - php: 7.2
+    - php: 7.3
       env: CHECKS=1 DEFAULT=0
 
-    - php: 7.2
+    - php: 7.3
       env: CODECOVERAGE=1 DEFAULT=0
 
 before_script:

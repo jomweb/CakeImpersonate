@@ -17,13 +17,13 @@ matrix:
   fast_finish: true
 
   include:
-    - php: 7.2
+    - php: 7.3
       env: DB=pgsql db_dsn='postgres://postgres@127.0.0.1/cakephp_test'
 
-    - php: 7.2
+    - php: 7.3
       env: DB=sqlite db_dsn='sqlite:///:memory:'
 
-    - php: 5.2
+    - php: 7.2
       env: PREFER_LOWEST=1
 
     - php: 7.3

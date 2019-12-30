@@ -108,7 +108,7 @@ class ImpersonateComponent extends Component
     /**
      * {@inheritdoc}
      */
-    public function implementedEvents()
+    public function implementedEvents(): array
     {
         $eventMap = [
             'Controller.startup' => 'updateConfig',

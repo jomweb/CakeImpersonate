@@ -28,7 +28,7 @@ class UsersFixture extends TestFixture
         'name' => ['type' => 'string', 'null' => true],
         'password' => ['type' => 'string', 'null' => true],
         'active' => ['type' => 'boolean', 'null' => true],
-        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
+        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
     ];
     /**
      * Records

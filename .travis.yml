@@ -37,11 +37,10 @@ matrix:
 
 before_script:
   - if [[ $PREFER_LOWEST != 1 ]]; then composer install --prefer-source --no-interaction ; fi
-
-  - if [[ $CHECKS != 1 ]]; then composer require phpunit/phpunit:"^8.0.4"; fi
-
-  - if [[ $PREFER_LOWEST == 1 ]]; then composer require --dev dereuromark/composer-prefer-lowest; fi
   - if [[ $PREFER_LOWEST == 1 ]]; then composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable ; fi
+  - if [[ $PREFER_LOWEST == 1 ]]; then composer require --dev dereuromark/composer-prefer-lowest; fi
+
+  - if [[ $CHECKS != 1 ]]; then composer require phpunit/phpunit:"^8.5"; fi
 
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi"

@@ -27,9 +27,11 @@ class ImpersonateTestController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function initialize()
+    public function initialize(): void
     {
-        $this->loadComponent('Auth');
+        $this->loadComponent('Auth', [
+            'logoutRedirect' => '/',
+        ]);
         $this->loadModel('Users');
         $this->loadComponent('CakeImpersonate.Impersonate');
         parent::initialize();

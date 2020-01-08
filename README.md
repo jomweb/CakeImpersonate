@@ -15,19 +15,16 @@ Always double check that an attacker cannot "spoof" other users in the controlle
 ***This Plugin does circumvent default authentication mechanisms***
 
 ## Requirement
-1. CakePHP 3.7 and above.
+1. CakePHP 4.0 and above.
+2. Authentication Component. *This plugin may not work with the new Authorization/Authentication Middleware*
 
 ## Installation/Upgrading
 `
-composer require jomweb/cake-impersonate:"^3.0"
+composer require jomweb/cake-impersonate:"^4.0"
 `
 
 ### Plugin Load
-Open \src\Application.php add
-```php
-$this->addPlugin('CakeImpersonate');
-```
-to your bootstrap() method or call `bin/cake plugin load CakeImpersonate`
+Execute `bin/cake plugin load CakeImpersonate`
 
 ### Component Load
 Load the component from controller
